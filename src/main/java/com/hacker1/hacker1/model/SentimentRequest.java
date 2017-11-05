@@ -3,6 +3,7 @@ package com.hacker1.hacker1.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ public class SentimentRequest implements Serializable{
 
     private Map<String, String> socialMediaInfo;
 
-    private Map<Integer, Integer> surveyResponse;
+    private String surveyResponse;
 
     public String getIpAddress() {
         return ipAddress;
@@ -33,11 +34,11 @@ public class SentimentRequest implements Serializable{
         this.socialMediaInfo = socialMediaInfo;
     }
 
-    public Map<Integer, Integer> getSurveyResponse() {
+    public String getSurveyResponse() {
         return surveyResponse;
     }
 
-    public void setSurveyResponse(Map<Integer, Integer> surveyResponse) {
+    public void setSurveyResponse(String surveyResponse) {
         this.surveyResponse = surveyResponse;
     }
 

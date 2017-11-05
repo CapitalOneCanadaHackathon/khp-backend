@@ -6,16 +6,14 @@ import com.hacker1.hacker1.service.SentimentService;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by dww055 on 11/4/17.
  */
 @RestController
 @RequestMapping("/sentiment")
+@CrossOrigin(origins = "http://10.250.45.159:3001")
 public class SentimentController {
 
     @Autowired

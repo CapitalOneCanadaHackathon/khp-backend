@@ -32,7 +32,7 @@ public class SentimentServiceImpl implements SentimentService {
 
     public static final int radius = 15;
 
-    public static final String dsUrl = "https://141.117.117.217/get-score";
+    public static final String dsUrl = "https://10.250.11.72:5000/get-score";
 
 
     private SentimentResponseDS publishSentimentDS(Map<String, String> sentimentRequest) {

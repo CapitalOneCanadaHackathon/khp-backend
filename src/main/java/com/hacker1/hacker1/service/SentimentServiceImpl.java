@@ -36,7 +36,6 @@ public class SentimentServiceImpl implements SentimentService {
     private SentimentResponseDS publishSentimentDS(SentimentRequest sentimentRequest) {
         SentimentResponseDS sentimentResponse = new SentimentResponseDS();
         //Mock
-        sentimentResponse.setCategory("Loneliness");
         sentimentResponse.setGravity(1);
         //
         return sentimentResponse;
@@ -61,8 +60,8 @@ public class SentimentServiceImpl implements SentimentService {
 
             InetAddress ip = InetAddress.getByName(ipAddress);
             InsightsResponse response = webServiceClient.insights(ip);
-            response.getLocation().getLatitude();
-            response.getLocation().getLongitude();
+            serverLocation.setLatitude(response.getLocation().getLatitude());
+            serverLocation.setLongitude(response.getLocation().getLongitude());
         } catch (IOException e) {
             serverLocation.setLatitude(43.6569962);
             serverLocation.setLongitude(-79.4524287);
@@ -103,7 +102,7 @@ public class SentimentServiceImpl implements SentimentService {
             query.addCriteria(Criteria.where("TopCategory").is(category));
             mongoResponses = mongoTemplate.find(query, MongoResponse.class);
             for (MongoResponse mongoResponse: mongoResponses) {
-                if (distance(latitude, longitude, mongoResponse.getLatitude(), mongoResponse.getLongitude()) < 15) {
+                if (distance(latitude, longitude, mongoResponse.getLatitude(), mongoResponse.getLongitude()) < radius) {
                     locations.add(mongoResponse.getPhysicalAddress()+
                             mongoResponse.getCity()+mongoResponse.getCountry()+
                             mongoResponse.getPostalCode()+mongoResponse.getProvince());

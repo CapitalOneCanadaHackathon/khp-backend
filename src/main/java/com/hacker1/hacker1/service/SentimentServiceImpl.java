@@ -28,6 +28,11 @@ public class SentimentServiceImpl implements SentimentService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    public static final String khpUrl = "https://kidshelpphone.ca";
+
+    public static final int radius = 15;
+
+
     private SentimentResponseDS publishSentimentDS(SentimentRequest sentimentRequest) {
         SentimentResponseDS sentimentResponse = new SentimentResponseDS();
         //Mock
@@ -37,35 +42,15 @@ public class SentimentServiceImpl implements SentimentService {
         return sentimentResponse;
     }
 
-    private List<String> getUrlsFromSearch(String searchParameter) {
-
-        List<String> urls = new ArrayList<>();
-
-        //Mock
-        urls.add("google.com");
-
-
-        return urls;
-    }
-
-    private List<String> getLocations(String location) {
-
-        List<String> locations = new ArrayList<>();
-
-        //Mock
-        locations.add("google.com");
-
-        return locations;
-    }
 
     @Override
-    public SentimentResponse returnSentiments(SentimentRequest sentimentRequest) {
+    public SentimentResponse returnSentiments(SentimentRequest sentimentRequest) throws GeoIp2Exception {
         SentimentResponse sentimentResponse = new SentimentResponse();
         SentimentResponseDS sentimentResponseDS = publishSentimentDS(sentimentRequest);
         String urlFromSearch = getUrlForSearch(sentimentResponseDS.getCategory());
-//        List<String> locations = getLocations(sentimentRequest.());
+        List<String> locations = getLocations(sentimentResponseDS.getCategory(),sentimentRequest.getIpAddress());
         sentimentResponse.setGravity(sentimentResponseDS.getGravity());
-//        sentimentResponse.setLocationUrls(locations);
+        sentimentResponse.setLocationUrls(locations);
         sentimentResponse.setSearchUrls(urlFromSearch);
         return sentimentResponse;
     }
@@ -79,7 +64,8 @@ public class SentimentServiceImpl implements SentimentService {
             response.getLocation().getLatitude();
             response.getLocation().getLongitude();
         } catch (IOException e) {
-            e.printStackTrace();
+            serverLocation.setLatitude(43.6569962);
+            serverLocation.setLongitude(-79.4524287);
         }
 
         return serverLocation;
@@ -114,8 +100,7 @@ public class SentimentServiceImpl implements SentimentService {
 
         try {
             Query query = new Query();
-            query.addCriteria(Criteria.where("").is(category))
-                    .addCriteria(Criteria.where("").is(category));
+            query.addCriteria(Criteria.where("TopCategory").is(category));
             mongoResponses = mongoTemplate.find(query, MongoResponse.class);
             for (MongoResponse mongoResponse: mongoResponses) {
                 if (distance(latitude, longitude, mongoResponse.getLatitude(), mongoResponse.getLongitude()) < 15) {

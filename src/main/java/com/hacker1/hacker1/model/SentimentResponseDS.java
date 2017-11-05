@@ -1,9 +1,14 @@
 package com.hacker1.hacker1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
 /**
  * Created by dww055 on 11/4/17.
  */
-public class SentimentResponseDS {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SentimentResponseDS implements Serializable {
 
     private int gravity;
 

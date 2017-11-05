@@ -14,10 +14,9 @@ public class SentimentResponse implements Serializable {
 
     private List<String> locationUrls;
 
-    private List<String> searchUrls;
+    private String searchUrl;
 
     private int gravity;
-
 
     public List<String> getLocationUrls() {
         return locationUrls;
@@ -27,12 +26,12 @@ public class SentimentResponse implements Serializable {
         this.locationUrls = locationUrls;
     }
 
-    public List<String> getSearchUrls() {
-        return searchUrls;
+    public String getSearchUrl() {
+        return searchUrl;
     }
 
-    public void setSearchUrls(List<String> searchUrls) {
-        this.searchUrls = searchUrls;
+    public void setSearchUrls(String searchUrl) {
+        this.searchUrl = searchUrl;
     }
 
     public int getGravity() {

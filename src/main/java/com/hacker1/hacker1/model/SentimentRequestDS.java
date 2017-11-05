@@ -14,22 +14,12 @@ public class SentimentRequestDS implements Serializable {
 
     private Map<String, String> socialMediaInfo;
 
-    private Map<Integer, List<Integer>> surveyResponse;
-
     public Map<String, String> getSocialMediaInfo() {
         return socialMediaInfo;
     }
 
     public void setSocialMediaInfo(Map<String, String> socialMediaInfo) {
         this.socialMediaInfo = socialMediaInfo;
-    }
-
-    public Map<Integer, List<Integer>> getSurveyResponse() {
-        return surveyResponse;
-    }
-
-    public void setSurveyResponse(Map<Integer, List<Integer>> surveyResponse) {
-        this.surveyResponse = surveyResponse;
     }
 
 }

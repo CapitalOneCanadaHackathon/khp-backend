@@ -16,7 +16,7 @@ public class SentimentRequest implements Serializable{
 
     private Map<String, String> socialMediaInfo;
 
-    private String surveyResponse;
+    private String category;
 
     public String getIpAddress() {
         return ipAddress;
@@ -34,12 +34,12 @@ public class SentimentRequest implements Serializable{
         this.socialMediaInfo = socialMediaInfo;
     }
 
-    public String getSurveyResponse() {
-        return surveyResponse;
+    public String getCategory() {
+        return category;
     }
 
-    public void setSurveyResponse(String surveyResponse) {
-        this.surveyResponse = surveyResponse;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 }

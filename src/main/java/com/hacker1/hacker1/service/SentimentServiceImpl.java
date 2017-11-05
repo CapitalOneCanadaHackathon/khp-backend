@@ -1,9 +1,6 @@
 package com.hacker1.hacker1.service;
 
-import com.hacker1.hacker1.model.MongoResponse;
-import com.hacker1.hacker1.model.SentimentRequest;
-import com.hacker1.hacker1.model.SentimentResponse;
-import com.hacker1.hacker1.model.SentimentResponseDS;
+import com.hacker1.hacker1.model.*;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.InsightsResponse;
 import com.sun.corba.se.spi.activation.LocatorPackage.ServerLocation;
@@ -11,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.xml.ws.WebServiceClient;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dww055 on 11/4/17.
@@ -32,12 +32,30 @@ public class SentimentServiceImpl implements SentimentService {
 
     public static final int radius = 15;
 
+    public static final String dsUrl = "/get-score";
 
-    private SentimentResponseDS publishSentimentDS(SentimentRequest sentimentRequest) {
+
+    private SentimentResponseDS publishSentimentDS(Map<String, String> sentimentRequest) {
         SentimentResponseDS sentimentResponse = new SentimentResponseDS();
-        //Mock
-        sentimentResponse.setGravity(1);
-        //
+        RestTemplate template = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SentimentRequestDS sentimentRequestDS = new SentimentRequestDS();
+        sentimentRequestDS.setSocialMediaInfo(sentimentRequest);
+
+        HttpEntity<SentimentRequestDS> entity = new HttpEntity<SentimentRequestDS>(
+                sentimentRequestDS, httpHeaders);
+
+        try {
+            ResponseEntity<SentimentResponseDS> sentimentResponseDS = template.
+                    exchange(dsUrl, HttpMethod.POST, entity, SentimentResponseDS.class);
+             sentimentResponse = new SentimentResponseDS();
+            if (sentimentResponseDS.getBody()!= null && sentimentResponseDS.getBody().getGravity() == 0) {
+                sentimentResponse.setGravity(sentimentResponseDS.getBody().getGravity());
+            }
+        } catch (Exception e){
+            sentimentResponse.setGravity(2);
+        }
         return sentimentResponse;
     }
 
@@ -45,9 +63,9 @@ public class SentimentServiceImpl implements SentimentService {
     @Override
     public SentimentResponse returnSentiments(SentimentRequest sentimentRequest) throws GeoIp2Exception {
         SentimentResponse sentimentResponse = new SentimentResponse();
-        SentimentResponseDS sentimentResponseDS = publishSentimentDS(sentimentRequest);
-        String urlFromSearch = getUrlForSearch(sentimentResponseDS.getCategory());
-        List<String> locations = getLocations(sentimentResponseDS.getCategory(),sentimentRequest.getIpAddress());
+        SentimentResponseDS sentimentResponseDS = publishSentimentDS(sentimentRequest.getSocialMediaInfo());
+        String urlFromSearch = getUrlForSearch(sentimentRequest.getCategory());
+        List<String> locations = getLocations(sentimentRequest.getCategory(), sentimentRequest.getIpAddress());
         sentimentResponse.setGravity(sentimentResponseDS.getGravity());
         sentimentResponse.setLocationUrls(locations);
         sentimentResponse.setSearchUrls(urlFromSearch);
@@ -107,11 +125,14 @@ public class SentimentServiceImpl implements SentimentService {
                             mongoResponse.getCity()+mongoResponse.getCountry()+
                             mongoResponse.getPostalCode()+mongoResponse.getProvince());
                 }
+                if (locations.size() == 0) {
+                    locations.add("2340 Dundas Street West Suite 301, Toronto, ON M6P 4A9, Canada");
+                }
             }
 
         } catch (Exception e) {
 
-
+          locations.add("2340 Dundas Street West Suite 301, Toronto, ON M6P 4A9, Canada");
         }
 
         return locations;

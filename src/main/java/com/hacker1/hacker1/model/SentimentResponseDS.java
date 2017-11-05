@@ -17,7 +17,7 @@ public class SentimentResponseDS implements Serializable {
     }
 
     public void setGravity(int gravity) {
-        gravity = gravity;
+        this.gravity = gravity;
     }
 
 }

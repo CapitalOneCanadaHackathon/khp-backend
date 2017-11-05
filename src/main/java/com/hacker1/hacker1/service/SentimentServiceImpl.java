@@ -32,7 +32,7 @@ public class SentimentServiceImpl implements SentimentService {
 
     public static final int radius = 15;
 
-    public static final String dsUrl = "/get-score";
+    public static final String dsUrl = "https://141.117.117.217/get-score";
 
 
     private SentimentResponseDS publishSentimentDS(Map<String, String> sentimentRequest) {
@@ -52,9 +52,12 @@ public class SentimentServiceImpl implements SentimentService {
              sentimentResponse = new SentimentResponseDS();
             if (sentimentResponseDS.getBody()!= null && sentimentResponseDS.getBody().getGravity() == 0) {
                 sentimentResponse.setGravity(sentimentResponseDS.getBody().getGravity());
+                return sentimentResponse;
+
             }
         } catch (Exception e){
             sentimentResponse.setGravity(2);
+            return sentimentResponse;
         }
         return sentimentResponse;
     }
@@ -125,17 +128,18 @@ public class SentimentServiceImpl implements SentimentService {
                             mongoResponse.getCity()+mongoResponse.getCountry()+
                             mongoResponse.getPostalCode()+mongoResponse.getProvince());
                 }
-                if (locations.size() == 0) {
-                    locations.add("2340 Dundas Street West Suite 301, Toronto, ON M6P 4A9, Canada");
-                }
             }
+            if (locations.size() == 0) {
+                locations.add("2340 Dundas Street West Suite 301, Toronto, ON M6P 4A9, Canada");
+            }
+            return locations;
 
         } catch (Exception e) {
 
           locations.add("2340 Dundas Street West Suite 301, Toronto, ON M6P 4A9, Canada");
+          return locations;
         }
 
-        return locations;
     }
     private static double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
@@ -155,5 +159,48 @@ public class SentimentServiceImpl implements SentimentService {
         return (rad * 180 / Math.PI);
     }
 
+    private Article buildArticleAnxiety1() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/how-cope-panic-and-anxiety");
+        article.setTitle("How to cope with panic and anxiety");
+        article.setDescription("panic anxiety");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-10/photo-of-young-man-viewing-tablet-on-beige-couch-tile.jpg");
+        return article;
+    }
 
+    private Content buildContentAnxiety1() {
+        List<Article> articles = new ArrayList<>();
+        List<String> youtubeUrls = new ArrayList<>();
+        articles.add(buildArticleAnxiety1());
+        Content content = new Content();
+        content.setArticleList(articles);
+        youtubeUrls.add("xqOxxbxWUV8");
+        youtubeUrls.add("Z_jkNmj5S0s");
+        content.setYoutubeUrls(youtubeUrls);
+        return content;
+    }
+
+    private Content buildContentAnxiety2() {
+        List<Article> articles = new ArrayList<>();
+        List<String> youtubeUrls = new ArrayList<>();
+        articles.add(buildArticleAnxiety1());
+        Content content = new Content();
+        content.setArticleList(articles);
+        youtubeUrls.add("xqOxxbxWUV8");
+        youtubeUrls.add("Z_jkNmj5S0s");
+        content.setYoutubeUrls(youtubeUrls);
+        return content;
+    }
+
+    private Content buildContentAnxiety3() {
+        List<Article> articles = new ArrayList<>();
+        List<String> youtubeUrls = new ArrayList<>();
+        articles.add(buildArticleAnxiety1());
+        Content content = new Content();
+        content.setArticleList(articles);
+        youtubeUrls.add("xqOxxbxWUV8");
+        youtubeUrls.add("Z_jkNmj5S0s");
+        content.setYoutubeUrls(youtubeUrls);
+        return content;
+    }
 }

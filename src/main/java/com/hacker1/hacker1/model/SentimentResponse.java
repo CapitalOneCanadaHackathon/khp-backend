@@ -18,6 +18,8 @@ public class SentimentResponse implements Serializable {
 
     private int gravity;
 
+    private Content content;
+
     public List<String> getLocationUrls() {
         return locationUrls;
     }
@@ -39,7 +41,14 @@ public class SentimentResponse implements Serializable {
     }
 
     public void setGravity(int gravity) {
-        gravity = gravity;
+        this.gravity = gravity;
     }
 
+    public Content getContent() {
+        return content;
+    }
+
+    public void setContent(Content content) {
+        this.content = content;
+    }
 }

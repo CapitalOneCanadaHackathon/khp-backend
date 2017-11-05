@@ -72,6 +72,13 @@ public class SentimentServiceImpl implements SentimentService {
         sentimentResponse.setGravity(sentimentResponseDS.getGravity());
         sentimentResponse.setLocationUrls(locations);
         sentimentResponse.setSearchUrls(urlFromSearch);
+        if (sentimentRequest.getCategory().equalsIgnoreCase("anxiety")) {
+            sentimentResponse.setContent(buildContentAnxiety());
+        } else if (sentimentRequest.getCategory().equalsIgnoreCase("bodyImage")) {
+            sentimentResponse.setContent(buildContentBI());
+        } else if (sentimentRequest.getCategory().equalsIgnoreCase("bullying")) {
+            sentimentResponse.setContent(buildContentBull());
+        }
         return sentimentResponse;
     }
 
@@ -168,10 +175,40 @@ public class SentimentServiceImpl implements SentimentService {
         return article;
     }
 
-    private Content buildContentAnxiety1() {
+    private Article buildArticleAnxiety2() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/tool/tension-release-exercise");
+        article.setTitle("Tension Release Exercise");
+        article.setDescription("anxiety stress\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-04/Tiles-tension-release-exercise.png");
+        return article;
+    }
+
+    private Article buildArticleAnxiety3() {
+        Article article = new Article();
+        article.setHyperlink("hhttps://kidshelpphone.ca/game/vent-it-baseball");
+        article.setTitle("TRY Vent it: Baseball\n");
+        article.setDescription("stress anxiety\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-05/Tiles-vent-it-baseball.jpg");
+        return article;
+    }
+
+    private Article buildArticleAnxiety4() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/game/vent-it-music");
+        article.setTitle("TRY Vent it: Music\n");
+        article.setDescription("stress anxiety\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-05/Tiles-vent-it-music.jpg");
+        return article;
+    }
+
+    private Content buildContentAnxiety() {
         List<Article> articles = new ArrayList<>();
         List<String> youtubeUrls = new ArrayList<>();
         articles.add(buildArticleAnxiety1());
+        articles.add(buildArticleAnxiety2());
+        articles.add(buildArticleAnxiety3());
+        articles.add(buildArticleAnxiety4());
         Content content = new Content();
         content.setArticleList(articles);
         youtubeUrls.add("xqOxxbxWUV8");
@@ -180,27 +217,110 @@ public class SentimentServiceImpl implements SentimentService {
         return content;
     }
 
-    private Content buildContentAnxiety2() {
+    private Article buildArticleBI1() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/tool/letter-to-eating-disorder");
+        article.setTitle("Write a letter to eating disorder\n");
+        article.setDescription("eating disorder, body image\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-04/Tiles-letter-to-eating-disorder_1.png");
+        return article;
+    }
+
+
+
+    private Article buildArticleBI2() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/body-image-how-love-what-you-see-mirror-0");
+        article.setTitle("Body Image - How to love what you see in the mirror\n");
+        article.setDescription("body image, identity\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-04/50-Happy-girl-in-autumn_0.png");
+        return article;
+    }
+
+    private Article buildArticleBI3() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/healthy-eating-nutrition-tips-fuel-your-body-0");
+        article.setTitle("Healthy eating: Nutrition tips to fuel your body\n");
+        article.setDescription("nutrition\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-04/51-Good-day-000011608906_Large_0.png");
+        return article;
+    }
+
+    private Article buildArticleBI4() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/what-eating-disorder-0");
+        article.setTitle("What is an eating disorder?\n");
+        article.setDescription("eating disorders\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-10/portrait-of-young-woman-appearing-upset-tile.jpg");
+        return article;
+    }
+
+    private Content buildContentBI() {
         List<Article> articles = new ArrayList<>();
         List<String> youtubeUrls = new ArrayList<>();
-        articles.add(buildArticleAnxiety1());
+        articles.add(buildArticleBI1());
+        articles.add(buildArticleBI2());
+        articles.add(buildArticleBI3());
+        articles.add(buildArticleBI4());
         Content content = new Content();
         content.setArticleList(articles);
-        youtubeUrls.add("xqOxxbxWUV8");
-        youtubeUrls.add("Z_jkNmj5S0s");
+        youtubeUrls.add("IgqMqtnTJeE");
+        youtubeUrls.add("hw7tCEs4tTQ");
         content.setYoutubeUrls(youtubeUrls);
         return content;
     }
 
-    private Content buildContentAnxiety3() {
+    private Content buildContentBull() {
         List<Article> articles = new ArrayList<>();
         List<String> youtubeUrls = new ArrayList<>();
-        articles.add(buildArticleAnxiety1());
+        articles.add(buildArticleBull1());
+        articles.add(buildArticleBull2());
+        articles.add(buildArticleBull3());
+        articles.add(buildArticleBull4());
         Content content = new Content();
         content.setArticleList(articles);
-        youtubeUrls.add("xqOxxbxWUV8");
-        youtubeUrls.add("Z_jkNmj5S0s");
+        youtubeUrls.add("6EY2OP1RCxc");
+        youtubeUrls.add("mnKPEsbTo9s");
         content.setYoutubeUrls(youtubeUrls);
         return content;
     }
+
+    private Article buildArticleBull4() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/what-do-if-youre-experiencing-bullying");
+        article.setTitle("What to do if you’re experiencing bullying \n");
+        article.setDescription("bullying help\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-05/40-PHO-Stock-Female-Kid-Swing_1.jpg");
+        return article;
+    }
+
+    private Article buildArticleBull3() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/bystander-what-do-if-you-witness-bullying");
+        article.setTitle("Bystander: What do you do if you witness bullying?\n");
+        article.setDescription("bullying\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-05/young-woman-with-white-earing-thumbnail.jpg");
+        return article;
+
+    }
+
+    private Article buildArticleBull2() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/what-do-if-youre-bullying-others");
+        article.setTitle(" What to do if you’re bullying others?\n");
+        article.setDescription("bullying\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-05/young-man-outdoors-beside-wooden-fence-thumbnail.jpg");
+        return article;
+    }
+
+    private Article buildArticleBull1() {
+        Article article = new Article();
+        article.setHyperlink("https://kidshelpphone.ca/article/what-bullying-0");
+        article.setTitle(" What is bullying\n");
+        article.setDescription("bullying\n");
+        article.setImageUrl("https://kidshelpphone.ca/sites/default/files/2017-05/young-woman-gazing-at-viewer-thumbnail.jpg");
+        return article;
+    }
+
+
 }
